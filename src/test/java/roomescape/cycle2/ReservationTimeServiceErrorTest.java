@@ -9,10 +9,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import roomescape.exception.CustomException;
-import roomescape.repository.ReservationRepository;
-import roomescape.repository.ReservationTimeRepository;
-import roomescape.repository.ThemeRepository;
-import roomescape.service.ReservationTimeService;
+import roomescape.reservation.repository.ReservationRepository;
+import roomescape.reservationtime.repository.ReservationTimeRepository;
+import roomescape.reservationtime.service.ReservationTimeService;
+import roomescape.theme.repository.ThemeRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ReservationTimeServiceErrorTest {

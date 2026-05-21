@@ -70,11 +70,11 @@ public class ReservationServiceTest {
         ThemeResponseDto themeResponseDto = createTheme();
 
         ReservationResponseDto responseDto = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2026, 5, 2), reservationTimeResponseDto.id(),
+                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
 
         assertThat(responseDto).isEqualTo(
-                new ReservationResponseDto(responseDto.id(), "fizz", LocalDate.of(2026, 5, 2),
+                new ReservationResponseDto(responseDto.id(), "fizz", LocalDate.of(2027, 5, 2),
                         reservationTimeResponseDto, themeResponseDto));
     }
 
@@ -83,13 +83,13 @@ public class ReservationServiceTest {
         ReservationTimeResponseDto reservationTimeResponseDto = createReservationTime();
         ThemeResponseDto themeResponseDto = createTheme();
         ReservationResponseDto firstResponse = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2026, 5, 2), reservationTimeResponseDto.id(),
+                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
         ReservationResponseDto secondResponse = reservationService.create(
-                new ReservationRequestDto("fizz2", LocalDate.of(2026, 5, 3), reservationTimeResponseDto.id(),
+                new ReservationRequestDto("fizz2", LocalDate.of(2027, 5, 3), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
 
-        List<ReservationResponseDto> responseDtos = reservationService.findAll();
+        List<ReservationResponseDto> responseDtos = reservationService.findReservation(null);
 
         assertThat(responseDtos.getFirst()).isEqualTo(firstResponse);
         assertThat(responseDtos.get(1)).isEqualTo(secondResponse);
@@ -100,11 +100,11 @@ public class ReservationServiceTest {
         ReservationTimeResponseDto reservationTimeResponseDto = createReservationTime();
         ThemeResponseDto themeResponseDto = createTheme();
         ReservationResponseDto responseDto = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2026, 5, 2), reservationTimeResponseDto.id(),
+                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
         reservationService.delete(responseDto.id());
 
-        List<ReservationResponseDto> responseDtos = reservationService.findAll();
+        List<ReservationResponseDto> responseDtos = reservationService.findReservation(null);
 
         assertThat(responseDtos.size()).isEqualTo(0);
     }

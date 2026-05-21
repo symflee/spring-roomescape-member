@@ -75,7 +75,7 @@ class ReservationTimeAcceptanceTest {
         @Test
         void 예약_전_예약_가능한_시간_조회_시_available_true() {
             RestAssured.given().log().all()
-                    .queryParam("date", "2026-05-01")
+                    .queryParam("date", "2027-05-01")
                     .queryParam("themeId", "1")
                     .when().get("/times/available")
                     .then().log().all()
@@ -89,14 +89,14 @@ class ReservationTimeAcceptanceTest {
                     .contentType(ContentType.JSON)
                     .body(Map.of(
                             "name", "예약자",
-                            "date", "2026-05-01",
+                            "date", "2027-05-01",
                             "timeId", "1",
                             "themeId", "1"
                     ))
                     .when().post("/reservations");
 
             RestAssured.given().log().all()
-                    .queryParam("date", "2026-05-01")
+                    .queryParam("date", "2027-05-01")
                     .queryParam("themeId", "1")
                     .when().get("/times/available")
                     .then().log().all()

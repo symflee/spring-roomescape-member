@@ -43,7 +43,7 @@ class ReservationAcceptanceTest {
                     .contentType(ContentType.JSON)
                     .body(Map.of(
                             "name", "예약자",
-                            "date", "2026-05-01",
+                            "date", "2027-05-01",
                             "timeId", "1",
                             "themeId", "1"
                     ))
@@ -56,7 +56,7 @@ class ReservationAcceptanceTest {
         void 중복_예약_추가_시_400_반환() {
             Map<String, Object> reservationBody = Map.of(
                     "name", "예약자",
-                    "date", "2026-05-01",
+                    "date", "2027-05-01",
                     "timeId", "1",
                     "themeId", "1"
             );
@@ -85,7 +85,7 @@ class ReservationAcceptanceTest {
                     .contentType(ContentType.JSON)
                     .body(Map.of(
                             "name", "예약자",
-                            "date", "2026-05-01",
+                            "date", "2027-05-01",
                             "timeId", "1",
                             "themeId", "1"
                     ))
@@ -113,7 +113,7 @@ class ReservationAcceptanceTest {
                     .contentType(ContentType.JSON)
                     .body(Map.of(
                             "name", "예약자",
-                            "date", "2026-05-01",
+                            "date", "2027-05-01",
                             "timeId", "1",
                             "themeId", "1"
                     ))

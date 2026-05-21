@@ -12,14 +12,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import roomescape.domain.ReservationTime;
-import roomescape.domain.Theme;
-import roomescape.dto.ReservationRequestDto;
 import roomescape.exception.CustomException;
-import roomescape.repository.ReservationRepository;
-import roomescape.repository.ReservationTimeRepository;
-import roomescape.repository.ThemeRepository;
-import roomescape.service.ReservationService;
+import roomescape.reservation.dto.ReservationRequestDto;
+import roomescape.reservation.repository.ReservationRepository;
+import roomescape.reservation.service.ReservationService;
+import roomescape.reservationtime.domain.ReservationTime;
+import roomescape.reservationtime.repository.ReservationTimeRepository;
+import roomescape.theme.domain.Theme;
+import roomescape.theme.repository.ThemeRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ReservationServiceErrorTest {
