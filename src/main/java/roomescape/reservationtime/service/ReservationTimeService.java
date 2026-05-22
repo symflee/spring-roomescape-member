@@ -8,9 +8,9 @@ import roomescape.exception.CustomException;
 import roomescape.exception.ErrorCode;
 import roomescape.reservation.repository.ReservationRepository;
 import roomescape.reservationtime.domain.ReservationTime;
-import roomescape.reservationtime.dto.ReservationTimeAvailabilityResponseDto;
-import roomescape.reservationtime.dto.ReservationTimeRequestDto;
-import roomescape.reservationtime.dto.ReservationTimeResponseDto;
+import roomescape.reservationtime.dto.ReservationTimeAvailabilityResponse;
+import roomescape.reservationtime.dto.ReservationTimeRequest;
+import roomescape.reservationtime.dto.ReservationTimeResponse;
 import roomescape.theme.domain.Theme;
 import roomescape.theme.repository.ThemeRepository;
 import roomescape.reservationtime.repository.ReservationTimeRepository;
@@ -31,19 +31,19 @@ public class ReservationTimeService {
     }
 
     @Transactional
-    public ReservationTimeResponseDto create(ReservationTimeRequestDto requestDto) {
+    public ReservationTimeResponse create(ReservationTimeRequest requestDto) {
         ReservationTime reservationTime = reservationTimeRepository.create(requestDto.toEntity());
-        return ReservationTimeResponseDto.from(reservationTime);
+        return ReservationTimeResponse.from(reservationTime);
     }
 
-    public List<ReservationTimeResponseDto> findAll() {
+    public List<ReservationTimeResponse> findAll() {
         List<ReservationTime> reservationTimes = reservationTimeRepository.findAll();
         return reservationTimes.stream()
-                .map(ReservationTimeResponseDto::from)
+                .map(ReservationTimeResponse::from)
                 .toList();
     }
 
-    public List<ReservationTimeAvailabilityResponseDto> findAvailabilityByDateAndTheme(
+    public List<ReservationTimeAvailabilityResponse> findAvailabilityByDateAndTheme(
             LocalDate date, Long themeId) {
         Theme theme = findTheme(themeId);
 
@@ -53,9 +53,9 @@ public class ReservationTimeService {
         return allReservationTimes.stream()
                 .map(reservationTime -> {
                     if (bookedTimeIds.contains(reservationTime.getId())) {
-                        return ReservationTimeAvailabilityResponseDto.from(reservationTime, false);
+                        return ReservationTimeAvailabilityResponse.from(reservationTime, false);
                     }
-                    return ReservationTimeAvailabilityResponseDto.from(reservationTime, true);
+                    return ReservationTimeAvailabilityResponse.from(reservationTime, true);
                 }).toList();
     }
 

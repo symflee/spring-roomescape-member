@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import roomescape.theme.dto.ThemeResponseDto;
+import roomescape.theme.dto.ThemeResponse;
 import roomescape.theme.service.ThemeService;
 
 @RestController
@@ -20,17 +20,17 @@ public class ThemeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ThemeResponseDto>> findAll() {
-        List<ThemeResponseDto> themeResponseDtos = themeService.findAll();
+    public ResponseEntity<List<ThemeResponse>> findAll() {
+        List<ThemeResponse> themeResponseDtos = themeService.findAll();
         return ResponseEntity.ok(themeResponseDtos);
     }
 
     @GetMapping("/ranking")
-    public ResponseEntity<List<ThemeResponseDto>> findRanking(
+    public ResponseEntity<List<ThemeResponse>> findRanking(
             @RequestParam("startDate") LocalDate startDate,
             @RequestParam("endDate") LocalDate endDate
     ) {
-        List<ThemeResponseDto> responseDtos = themeService.findRanking(startDate, endDate);
+        List<ThemeResponse> responseDtos = themeService.findRanking(startDate, endDate);
         return ResponseEntity.ok(responseDtos);
     }
 }

@@ -3,7 +3,7 @@ package roomescape.reservation.dto;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public record ReservationUpdateRequestDto(
+public record ReservationUpdateRequest(
         @NotNull(message = "날짜는 비어 있을 수 없습니다.")
         LocalDate date,
 

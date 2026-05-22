@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import roomescape.theme.dto.ThemeRequestDto;
-import roomescape.theme.dto.ThemeResponseDto;
+import roomescape.theme.dto.ThemeRequest;
+import roomescape.theme.dto.ThemeResponse;
 import roomescape.theme.service.ThemeService;
 
 @RestController
@@ -24,8 +24,8 @@ public class AdminThemeController {
     }
 
     @PostMapping
-    public ResponseEntity<ThemeResponseDto> create(@RequestBody @Valid ThemeRequestDto request) {
-        ThemeResponseDto response = themeService.create(request);
+    public ResponseEntity<ThemeResponse> create(@RequestBody @Valid ThemeRequest request) {
+        ThemeResponse response = themeService.create(request);
 
         URI location = buildLocationUri(response);
 
@@ -33,7 +33,7 @@ public class AdminThemeController {
                 .body(response);
     }
 
-    private static URI buildLocationUri(ThemeResponseDto responseDto) {
+    private static URI buildLocationUri(ThemeResponse responseDto) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")

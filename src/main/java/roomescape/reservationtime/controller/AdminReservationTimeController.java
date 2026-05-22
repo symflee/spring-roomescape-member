@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import roomescape.reservationtime.dto.ReservationTimeRequestDto;
-import roomescape.reservationtime.dto.ReservationTimeResponseDto;
+import roomescape.reservationtime.dto.ReservationTimeRequest;
+import roomescape.reservationtime.dto.ReservationTimeResponse;
 import roomescape.reservationtime.service.ReservationTimeService;
 
 @RestController
@@ -26,8 +26,8 @@ public class AdminReservationTimeController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationTimeResponseDto> create(@Valid @RequestBody ReservationTimeRequestDto request) {
-        ReservationTimeResponseDto response = reservationTimeService.create(request);
+    public ResponseEntity<ReservationTimeResponse> create(@Valid @RequestBody ReservationTimeRequest request) {
+        ReservationTimeResponse response = reservationTimeService.create(request);
 
         URI location = buildLocationUri(response);
 
@@ -35,7 +35,7 @@ public class AdminReservationTimeController {
                 .body(response);
     }
 
-    private static URI buildLocationUri(ReservationTimeResponseDto responseDto) {
+    private static URI buildLocationUri(ReservationTimeResponse responseDto) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -44,8 +44,8 @@ public class AdminReservationTimeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReservationTimeResponseDto>> findAll() {
-        List<ReservationTimeResponseDto> responseDtos = reservationTimeService.findAll();
+    public ResponseEntity<List<ReservationTimeResponse>> findAll() {
+        List<ReservationTimeResponse> responseDtos = reservationTimeService.findAll();
         return ResponseEntity.ok(responseDtos);
     }
 

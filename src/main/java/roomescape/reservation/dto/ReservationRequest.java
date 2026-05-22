@@ -7,7 +7,7 @@ import roomescape.reservation.domain.Reservation;
 import roomescape.reservationtime.domain.ReservationTime;
 import roomescape.theme.domain.Theme;
 
-public record ReservationRequestDto(
+public record ReservationRequest(
         @NotBlank(message = "이름은 비어 있을 수 없습니다.")
         String name,
 

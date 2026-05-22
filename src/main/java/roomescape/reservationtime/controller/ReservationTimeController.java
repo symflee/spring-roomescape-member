@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import roomescape.reservationtime.dto.ReservationTimeAvailabilityResponseDto;
+import roomescape.reservationtime.dto.ReservationTimeAvailabilityResponse;
 import roomescape.reservationtime.service.ReservationTimeService;
 
 @RestController
@@ -20,10 +20,10 @@ public class ReservationTimeController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<List<ReservationTimeAvailabilityResponseDto>> findAvailabilityByDateAndTheme(
+    public ResponseEntity<List<ReservationTimeAvailabilityResponse>> findAvailabilityByDateAndTheme(
             @RequestParam("date") LocalDate date, @RequestParam("themeId") Long themeId) {
 
-        List<ReservationTimeAvailabilityResponseDto> responseDtos = reservationTimeService.findAvailabilityByDateAndTheme(
+        List<ReservationTimeAvailabilityResponse> responseDtos = reservationTimeService.findAvailabilityByDateAndTheme(
                 date, themeId);
 
         return ResponseEntity.ok(responseDtos);

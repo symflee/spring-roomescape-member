@@ -8,8 +8,8 @@ import roomescape.exception.CustomException;
 import roomescape.exception.ErrorCode;
 import roomescape.reservation.repository.ReservationRepository;
 import roomescape.theme.domain.Theme;
-import roomescape.theme.dto.ThemeRequestDto;
-import roomescape.theme.dto.ThemeResponseDto;
+import roomescape.theme.dto.ThemeRequest;
+import roomescape.theme.dto.ThemeResponse;
 import roomescape.theme.repository.ThemeRepository;
 
 @Transactional(readOnly = true)
@@ -26,20 +26,20 @@ public class ThemeService {
     }
 
     @Transactional
-    public ThemeResponseDto create(ThemeRequestDto requestDto) {
+    public ThemeResponse create(ThemeRequest requestDto) {
         Theme theme = requestDto.toEntity();
-        return ThemeResponseDto.from(themeRepository.create(theme));
+        return ThemeResponse.from(themeRepository.create(theme));
     }
 
-    public List<ThemeResponseDto> findAll() {
+    public List<ThemeResponse> findAll() {
         return themeRepository.findAll().stream()
-                .map(ThemeResponseDto::from)
+                .map(ThemeResponse::from)
                 .toList();
     }
 
-    public List<ThemeResponseDto> findRanking(LocalDate startDate, LocalDate endDate) {
+    public List<ThemeResponse> findRanking(LocalDate startDate, LocalDate endDate) {
         return themeRepository.findAllByOrderByReservationCountDesc(startDate, endDate, RANKING_LIMIT).stream()
-                .map(ThemeResponseDto::from)
+                .map(ThemeResponse::from)
                 .toList();
     }
 

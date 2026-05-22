@@ -16,10 +16,10 @@ import roomescape.repository.ReservationTimeRepository;
 import roomescape.repository.ThemeRepository;
 import roomescape.domain.ReservationTime;
 import roomescape.domain.Theme;
-import roomescape.dto.ReservationRequestDto;
-import roomescape.dto.ReservationResponseDto;
-import roomescape.dto.ReservationTimeResponseDto;
-import roomescape.dto.ThemeResponseDto;
+import roomescape.dto.ReservationRequest;
+import roomescape.dto.ReservationResponse;
+import roomescape.dto.ReservationTimeResponse;
+import roomescape.dto.ThemeResponse;
 import roomescape.exception.CustomException;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -41,8 +41,8 @@ public class ReservationServiceTest {
         Long testId = createdTime.getId();
         reservationTimeRepository.delete(testId);
 
-        ThemeResponseDto themeResponseDto = createTheme();
-        ReservationRequestDto requestDto = new ReservationRequestDto(
+        ThemeResponse themeResponseDto = createTheme();
+        ReservationRequest requestDto = new ReservationRequest(
                 "fizz",
                 LocalDate.of(2026, 5, 2),
                 testId,
@@ -54,42 +54,42 @@ public class ReservationServiceTest {
                 .isInstanceOf(CustomException.class);
     }
 
-    private ReservationTimeResponseDto createReservationTime() {
+    private ReservationTimeResponse createReservationTime() {
         ReservationTime createdTime = reservationTimeRepository.create(new ReservationTime(LocalTime.of(10, 0)));
-        return ReservationTimeResponseDto.from(createdTime);
+        return ReservationTimeResponse.from(createdTime);
     }
 
-    private ThemeResponseDto createTheme() {
+    private ThemeResponse createTheme() {
         Theme createdTheme = themeRepository.create(new Theme("피즈의 모험", "모험 이야기", "url.jpg"));
-        return ThemeResponseDto.from(createdTheme);
+        return ThemeResponse.from(createdTheme);
     }
 
     @Test
     void createTest() {
-        ReservationTimeResponseDto reservationTimeResponseDto = createReservationTime();
-        ThemeResponseDto themeResponseDto = createTheme();
+        ReservationTimeResponse reservationTimeResponseDto = createReservationTime();
+        ThemeResponse themeResponseDto = createTheme();
 
-        ReservationResponseDto responseDto = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
+        ReservationResponse responseDto = reservationService.create(
+                new ReservationRequest("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
 
         assertThat(responseDto).isEqualTo(
-                new ReservationResponseDto(responseDto.id(), "fizz", LocalDate.of(2027, 5, 2),
+                new ReservationResponse(responseDto.id(), "fizz", LocalDate.of(2027, 5, 2),
                         reservationTimeResponseDto, themeResponseDto));
     }
 
     @Test
     void findAllTest() {
-        ReservationTimeResponseDto reservationTimeResponseDto = createReservationTime();
-        ThemeResponseDto themeResponseDto = createTheme();
-        ReservationResponseDto firstResponse = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
+        ReservationTimeResponse reservationTimeResponseDto = createReservationTime();
+        ThemeResponse themeResponseDto = createTheme();
+        ReservationResponse firstResponse = reservationService.create(
+                new ReservationRequest("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
-        ReservationResponseDto secondResponse = reservationService.create(
-                new ReservationRequestDto("fizz2", LocalDate.of(2027, 5, 3), reservationTimeResponseDto.id(),
+        ReservationResponse secondResponse = reservationService.create(
+                new ReservationRequest("fizz2", LocalDate.of(2027, 5, 3), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
 
-        List<ReservationResponseDto> responseDtos = reservationService.findReservation(null);
+        List<ReservationResponse> responseDtos = reservationService.findReservation(null);
 
         assertThat(responseDtos.getFirst()).isEqualTo(firstResponse);
         assertThat(responseDtos.get(1)).isEqualTo(secondResponse);
@@ -97,14 +97,14 @@ public class ReservationServiceTest {
 
     @Test
     void deleteTest() {
-        ReservationTimeResponseDto reservationTimeResponseDto = createReservationTime();
-        ThemeResponseDto themeResponseDto = createTheme();
-        ReservationResponseDto responseDto = reservationService.create(
-                new ReservationRequestDto("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
+        ReservationTimeResponse reservationTimeResponseDto = createReservationTime();
+        ThemeResponse themeResponseDto = createTheme();
+        ReservationResponse responseDto = reservationService.create(
+                new ReservationRequest("fizz", LocalDate.of(2027, 5, 2), reservationTimeResponseDto.id(),
                         themeResponseDto.id()));
         reservationService.delete(responseDto.id());
 
-        List<ReservationResponseDto> responseDtos = reservationService.findReservation(null);
+        List<ReservationResponse> responseDtos = reservationService.findReservation(null);
 
         assertThat(responseDtos.size()).isEqualTo(0);
     }

@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.jdbc.Sql;
-import roomescape.theme.dto.ThemeRequestDto;
-import roomescape.theme.dto.ThemeResponseDto;
+import roomescape.theme.dto.ThemeRequest;
+import roomescape.theme.dto.ThemeResponse;
 import roomescape.theme.service.ThemeService;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -27,12 +27,12 @@ public class ThemeServiceTest {
         String name = "피즈의 모험";
         String description = "모험 이야기";
         String thumbnailUrl = "url.jpg";
-        ThemeRequestDto requestDto = new ThemeRequestDto(name, description, thumbnailUrl);
+        ThemeRequest requestDto = new ThemeRequest(name, description, thumbnailUrl);
 
-        ThemeResponseDto responseDto = themeService.create(requestDto);
+        ThemeResponse responseDto = themeService.create(requestDto);
 
         assertThat(responseDto).isEqualTo(
-                new ThemeResponseDto(
+                new ThemeResponse(
                         responseDto.id(),
                         name,
                         description,
@@ -43,18 +43,18 @@ public class ThemeServiceTest {
 
     @Test
     void findAllTest() {
-        ThemeResponseDto firstResponse = themeService.create(new ThemeRequestDto(
+        ThemeResponse firstResponse = themeService.create(new ThemeRequest(
                 "피즈의 모험",
                 "모험 이야기",
                 "url.jpg"
         ));
-        ThemeResponseDto secondResponse = themeService.create(new ThemeRequestDto(
+        ThemeResponse secondResponse = themeService.create(new ThemeRequest(
                 "나무의 일대기",
                 "모험 이야기",
                 "url.jpg"
         ));
 
-        List<ThemeResponseDto> responseDtos = themeService.findAll();
+        List<ThemeResponse> responseDtos = themeService.findAll();
 
         assertThat(responseDtos.size()).isEqualTo(2);
         assertThat(responseDtos.get(0)).isEqualTo(firstResponse);
@@ -63,7 +63,7 @@ public class ThemeServiceTest {
 
     @Test
     void deleteTest() {
-        ThemeResponseDto responseDto = themeService.create(new ThemeRequestDto(
+        ThemeResponse responseDto = themeService.create(new ThemeRequest(
                 "피즈의 모험",
                 "모험 이야기",
                 "url.jpg"
@@ -71,14 +71,14 @@ public class ThemeServiceTest {
 
         themeService.delete(responseDto.id());
 
-        List<ThemeResponseDto> responseDtos = themeService.findAll();
+        List<ThemeResponse> responseDtos = themeService.findAll();
         assertThat(responseDtos.size()).isEqualTo(0);
     }
 
     @Test
     @Sql(scripts = "/ranking-test-data.sql")
     void findRankingTest() {
-        List<ThemeResponseDto> responseDtos = themeService.findRanking(LocalDate.of(2026, 5, 1),
+        List<ThemeResponse> responseDtos = themeService.findRanking(LocalDate.of(2026, 5, 1),
                 LocalDate.of(2026, 5, 7));
 
         assertThat(responseDtos.get(0).id()).isEqualTo(1);

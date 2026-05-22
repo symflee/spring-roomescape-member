@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import roomescape.exception.CustomException;
 import roomescape.exception.ErrorCode;
 import roomescape.reservation.domain.Reservation;
-import roomescape.reservation.dto.ReservationRequestDto;
-import roomescape.reservation.dto.ReservationResponseDto;
-import roomescape.reservation.dto.ReservationUpdateRequestDto;
+import roomescape.reservation.dto.ReservationRequest;
+import roomescape.reservation.dto.ReservationResponse;
+import roomescape.reservation.dto.ReservationUpdateRequest;
 import roomescape.reservation.repository.ReservationRepository;
 import roomescape.reservationtime.domain.ReservationTime;
 import roomescape.reservationtime.repository.ReservationTimeRepository;
@@ -25,16 +25,18 @@ public class ReservationService {
     private final ReservationTimeRepository reservationTimeRepository;
     private final ThemeRepository themeRepository;
 
-    public ReservationService(ReservationRepository reservationRepository,
-                              ReservationTimeRepository reservationTimeRepository,
-                              ThemeRepository themeRepository) {
+    public ReservationService(
+            ReservationRepository reservationRepository,
+            ReservationTimeRepository reservationTimeRepository,
+            ThemeRepository themeRepository
+    ) {
         this.reservationRepository = reservationRepository;
         this.reservationTimeRepository = reservationTimeRepository;
         this.themeRepository = themeRepository;
     }
 
     @Transactional
-    public ReservationResponseDto create(ReservationRequestDto request) {
+    public ReservationResponse create(ReservationRequest request) {
         ReservationTime reservationTime = getReservationTime(request.timeId());
         Theme theme = getTheme(request.themeId());
 
@@ -44,7 +46,7 @@ public class ReservationService {
         Reservation reservationWithoutId = request.toEntity(reservationTime, theme);
         Reservation reservation = reservationRepository.create(reservationWithoutId);
 
-        return ReservationResponseDto.from(reservation);
+        return ReservationResponse.from(reservation);
     }
 
     private void validateFutureDateTime(LocalDate date, ReservationTime time) {
@@ -62,28 +64,28 @@ public class ReservationService {
         }
     }
 
-    public List<ReservationResponseDto> findReservation(String name) {
+    public List<ReservationResponse> findReservation(String name) {
         if (name == null) {
             return findAll();
         }
         return findAllByName(name);
     }
 
-    private List<ReservationResponseDto> findAll() {
+    private List<ReservationResponse> findAll() {
         List<Reservation> reservations = reservationRepository.findAll();
         return reservations.stream()
-                .map(ReservationResponseDto::from)
+                .map(ReservationResponse::from)
                 .toList();
     }
 
-    private List<ReservationResponseDto> findAllByName(String name) {
+    private List<ReservationResponse> findAllByName(String name) {
         return reservationRepository.findAllByName(name).stream()
-                .map(ReservationResponseDto::from)
+                .map(ReservationResponse::from)
                 .toList();
     }
 
     @Transactional
-    public void update(Long reservationId, ReservationUpdateRequestDto request) {
+    public void update(Long reservationId, ReservationUpdateRequest request) {
         Reservation reservation = getReservation(reservationId);
         validateFutureReservation(reservation);
         ReservationTime time = getReservationTime(request.timeId());

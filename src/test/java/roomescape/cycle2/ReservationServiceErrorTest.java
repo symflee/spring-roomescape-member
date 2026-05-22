@@ -13,7 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import roomescape.exception.CustomException;
-import roomescape.reservation.dto.ReservationRequestDto;
+import roomescape.reservation.dto.ReservationRequest;
 import roomescape.reservation.repository.ReservationRepository;
 import roomescape.reservation.service.ReservationService;
 import roomescape.reservationtime.domain.ReservationTime;
@@ -50,7 +50,7 @@ class ReservationServiceErrorTest {
             when(reservationTimeRepository.findById(TIME_ID)).thenReturn(Optional.of(reservationTime));
 
             LocalDate pastDate = LocalDate.now().minusDays(1);
-            ReservationRequestDto request = new ReservationRequestDto("예약자", pastDate, TIME_ID, THEME_ID);
+            ReservationRequest request = new ReservationRequest("예약자", pastDate, TIME_ID, THEME_ID);
 
             assertThatThrownBy(() -> reservationService.create(request))
                     .isInstanceOf(CustomException.class)
@@ -63,7 +63,7 @@ class ReservationServiceErrorTest {
             ReservationTime reservationTime = new ReservationTime(TIME_ID, LocalTime.MIN);
             when(reservationTimeRepository.findById(TIME_ID)).thenReturn(Optional.of(reservationTime));
 
-            ReservationRequestDto request = new ReservationRequestDto(
+            ReservationRequest request = new ReservationRequest(
                     "예약자", LocalDate.now(), TIME_ID, THEME_ID);
 
             assertThatThrownBy(() -> reservationService.create(request))
@@ -84,7 +84,7 @@ class ReservationServiceErrorTest {
             when(themeRepository.findById(THEME_ID)).thenReturn(Optional.of(theme));
             when(reservationRepository.existsByDateAndTimeIdAndThemeId(futureDate, TIME_ID, THEME_ID)).thenReturn(true);
 
-            ReservationRequestDto request = new ReservationRequestDto(
+            ReservationRequest request = new ReservationRequest(
                     "예약자", futureDate, TIME_ID, THEME_ID);
 
             assertThatThrownBy(() -> reservationService.create(request))
@@ -106,7 +106,7 @@ class ReservationServiceErrorTest {
             when(reservationRepository.existsByDateAndTimeIdAndThemeId(futureDate, TIME_ID, THEME_ID)).thenReturn(
                     false);
 
-            ReservationRequestDto request = new ReservationRequestDto(
+            ReservationRequest request = new ReservationRequest(
                     "", futureDate, TIME_ID, THEME_ID);
 
             assertThatThrownBy(() -> reservationService.create(request))
