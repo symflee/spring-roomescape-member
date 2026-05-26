@@ -1,7 +1,9 @@
 package roomescape.reservationtime.domain;
 
 import java.time.LocalTime;
+import lombok.Getter;
 
+@Getter
 public class ReservationTime {
 
     private final Long id;
@@ -14,9 +16,7 @@ public class ReservationTime {
     }
 
     public ReservationTime(LocalTime startAt) {
-        validate(startAt);
-        this.id = null;
-        this.startAt = startAt;
+        this(null, startAt);
     }
 
     public static ReservationTime of(Long id, ReservationTime reservationTime) {
@@ -27,14 +27,6 @@ public class ReservationTime {
         if (startAt == null) {
             throw new IllegalArgumentException("예약 시간은 비어 있을 수 없습니다.");
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public LocalTime getStartAt() {
-        return startAt;
     }
 
     public boolean isBefore(LocalTime other) {

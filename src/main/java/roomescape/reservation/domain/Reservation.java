@@ -2,9 +2,11 @@ package roomescape.reservation.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Getter;
 import roomescape.reservationtime.domain.ReservationTime;
 import roomescape.theme.domain.Theme;
 
+@Getter
 public class Reservation {
 
     private final Long id;
@@ -23,12 +25,7 @@ public class Reservation {
     }
 
     public Reservation(String name, LocalDate date, ReservationTime time, Theme theme) {
-        validate(name, date, time, theme);
-        this.id = null;
-        this.name = name;
-        this.date = date;
-        this.time = time;
-        this.theme = theme;
+        this(null, name, date, time, theme);
     }
 
     public static Reservation of(Long id, Reservation reservation) {
@@ -63,23 +60,4 @@ public class Reservation {
         return theme.getId();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public ReservationTime getTime() {
-        return time;
-    }
-
-    public Theme getTheme() {
-        return theme;
-    }
 }

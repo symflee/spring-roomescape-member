@@ -26,7 +26,9 @@ public class AdminReservationTimeController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationTimeResponse> create(@Valid @RequestBody ReservationTimeRequest request) {
+    public ResponseEntity<ReservationTimeResponse> create(
+            @Valid @RequestBody ReservationTimeRequest request
+    ) {
         ReservationTimeResponse response = reservationTimeService.create(request);
 
         URI location = buildLocationUri(response);
@@ -35,7 +37,9 @@ public class AdminReservationTimeController {
                 .body(response);
     }
 
-    private static URI buildLocationUri(ReservationTimeResponse responseDto) {
+    private static URI buildLocationUri(
+            ReservationTimeResponse responseDto
+    ) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -50,7 +54,9 @@ public class AdminReservationTimeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(
+            @PathVariable Long id
+    ) {
         reservationTimeService.delete(id);
 
         return ResponseEntity

@@ -21,8 +21,9 @@ public class ReservationTimeController {
 
     @GetMapping("/available")
     public ResponseEntity<List<ReservationTimeAvailabilityResponse>> findAvailabilityByDateAndTheme(
-            @RequestParam("date") LocalDate date, @RequestParam("themeId") Long themeId) {
-
+            @RequestParam("date") LocalDate date,
+            @RequestParam("themeId") Long themeId
+    ) {
         List<ReservationTimeAvailabilityResponse> responseDtos = reservationTimeService.findAvailabilityByDateAndTheme(
                 date, themeId);
 
